@@ -1,0 +1,46 @@
+{{extends "./layouts/base.jet"}}
+
+{{block browserTitle()}}Welcome{{end}}
+
+{{block css()}}
+
+{{end}}
+
+{{block pageContent()}}
+
+<div class="col text-center">
+    <div class="d-flex align-items-center justify-content-center mt-5">
+        <div>
+            <img src="/public/images/celeritas.jpg" class="mb-5" style="width: 100px;height:auto;">
+            <h1>Celeritas</h1>
+            <hr>
+            <small class="text-muted">Go build something awesome</small>
+            {{ if .IsAuthenticated}}
+                <small>Authenticated! <a href="/users/logout">Logout</a>.</small>
+            {{end}}
+        </div>
+    </div>
+
+    <hr>
+
+    <p>Things to try:</p>
+
+    <div class="list-group">
+        <a href="/go-page" class="list-group-item list-group-item-action">Render a Go Template</a>
+        <a href="/jet-page" class="list-group-item list-group-item-action">Render a Jet Template</a>
+        <a href="/sessions" class="list-group-item list-group-item-action">Try Sessions</a>
+        <a href="/users/login" class="list-group-item list-group-item-action">Login a User</a>
+        <a href="/form" class="list-group-item list-group-item-action">Form Validation</a>
+        <a href="/json" class="list-group-item list-group-item-action">JSON Response</a>
+        <a href="/xml" class="list-group-item list-group-item-action">XML Response</a>
+        <a href="/download-file" class="list-group-item list-group-item-action">Download File Response</a>
+        <a href="/cache-test" class="list-group-item list-group-item-action">Cache</a>
+    </div>
+</div>
+
+{{end}}
+
+
+{{block js()}}
+
+{{end}}

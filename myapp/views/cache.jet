@@ -1,0 +1,203 @@
+{{extends "./layouts/base.jet"}}
+
+{{block browserTitle()}} Cache {{end}}
+{{block css()}} {{end}}
+
+{{block pageContent()}}
+<h2 class="mt-5">Cache Content</h2>
+
+<hr>
+
+<form id="saveForm">
+    <div class="mb-3">
+        <label for="cache_name" class="form-label">Cache Name</label>
+        <input type="text" class="form-control" id="cache_name">
+    </div>
+    <div class="mb-3">
+        <label for="cache_value" class="form-label">Cache Value</label>
+        <input type="text" class="form-control" id="cache_value">
+    </div>
+    <div id="saveOutput" class="alert alert-secondary">Nothing saved yet...</div>
+
+
+    <a id="saveBtn" href="javascript:void(0);" class="btn btn-sm btn-success">Save in cache</a>
+</form>
+
+<hr>
+
+<form id="getForm">
+    <div class="mb-3">
+        <label for="get" class="form-label">Get Item From Cache</label>
+        <input type="text" class="form-control" id="get">
+    </div>
+    <div id="getOutput" class="alert alert-secondary">Nothing retrieved yet...</div>
+
+    <a id="getBtn" href="javascript:void(0);" class="btn btn-sm btn-primary">Get from cache</a>
+</form>
+
+<hr>
+
+<form id="deleteForm">
+    <div class="mb-3">
+        <label for="delete" class="form-label">Delete Item From Cache</label>
+        <input type="text" class="form-control" id="delete">
+    </div>
+    <div id="deleteOutput" class="alert alert-secondary">Nothing deleted yet...</div>
+
+    <a id="delBtn" href="javascript:void(0);" class="btn btn-sm btn-danger">Delete from cache</a>
+</form>
+
+<hr>
+
+<form id="emptyForm">
+    <div id="emptyOutput" class="alert alert-secondary">Cache not emptied yet...</div>
+
+    <a id="emptyBtn" href="javascript:void(0);" class="btn btn-sm btn-danger">Empty cache</a>
+</form>
+
+<hr>
+
+<div class="text-center">
+    <a class="btn btn-outline-secondary" href="/">Back...</a>
+</div>
+
+<p>&nbsp;</p>
+{{end}}
+
+{{ block js()}}
+<script>
+    let csrf = document.querySelector('meta[name="csrf-token"]').content;
+
+    let saveBtn = document.getElementById("saveBtn");
+    let getBtn = document.getElementById("getBtn");
+    let delBtn = document.getElementById("delBtn");
+    let emptyBtn = document.getElementById("emptyBtn");
+
+    let saveOut = document.getElementById("saveOutput");
+    let getOut = document.getElementById("getOutput");
+    let deleteOut = document.getElementById("deleteOutput");
+    let emptyOut = document.getElementById("emptyOutput");
+
+    document.addEventListener("DOMContentLoaded", function(){
+        saveBtn.addEventListener("click", function() {
+            let payload = {
+                name: document.getElementById("cache_name").value,
+                value: document.getElementById("cache_value").value,
+                csrf_token: csrf,
+            }
+
+            const requestOptions = {
+                method: 'post',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload),
+            }
+
+            fetch("/api/save-in-cache", requestOptions)
+                .then(response => response.json())
+                .then(function (data) {
+                    if (data.error) {
+                        saveOut.classList.remove("alert-secondary", "alert-success");
+                        saveOut.classList.add("alert-danger");
+                        saveOut.innerText = data.message;
+                    } else {
+                        saveOut.classList.remove("alert-secondary", "alert-danger");
+                        saveOut.classList.add("alert-success");
+                        saveOut.innerText = data.message;
+                    }
+                })
+        })
+
+        getBtn.addEventListener("click", function(){
+            let payload = {
+                name: document.getElementById("get").value,
+                csrf_token: csrf,
+            }
+
+            const requestOptions = {
+                method: 'post',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload),
+            }
+
+            fetch("/api/get-from-cache", requestOptions)
+                .then(response => response.json())
+                .then(function (data) {
+                    if (data.error) {
+                        getOut.classList.remove("alert-secondary", "alert-success");
+                        getOut.classList.add("alert-danger");
+                        getOut.innerText = data.message;
+                    } else {
+                        getOut.classList.remove("alert-secondary", "alert-danger");
+                        getOut.classList.add("alert-success");
+                        getOut.innerText = "From cache: " + data.value;
+                    }
+                })
+        })
+
+        delBtn.addEventListener("click", function(){
+            let payload = {
+                name: document.getElementById("delete").value,
+                csrf_token: csrf,
+            }
+
+            const requestOptions = {
+                method: 'post',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload),
+            }
+
+            fetch("/api/delete-from-cache", requestOptions)
+                .then(response => response.json())
+                .then(function (data) {
+                    if (data.error) {
+                        deleteOut.classList.remove("alert-secondary", "alert-success");
+                        deleteOut.classList.add("alert-danger");
+                        deleteOut.innerText = data.message;
+                    } else {
+                        deleteOut.classList.remove("alert-secondary", "alert-danger");
+                        deleteOut.classList.add("alert-success");
+                        deleteOut.innerText = data.message;
+                    }
+                })
+        });
+
+        emptyBtn.addEventListener("click", function(){
+            let payload = {
+                csrf_token: csrf,
+            }
+
+            const requestOptions = {
+                method: 'post',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload),
+            }
+
+            fetch("/api/empty-cache", requestOptions)
+                .then(response => response.json())
+                .then(function (data) {
+                    if (data.error) {
+                        emptyOut.classList.remove("alert-secondary", "alert-success");
+                        emptyOut.classList.add("alert-danger");
+                        emptyOut.innerText = data.message;
+                    } else {
+                        emptyOut.classList.remove("alert-secondary", "alert-danger");
+                        emptyOut.classList.add("alert-success");
+                        emptyOut.innerText = data.message;
+                    }
+                })
+        });
+    });
+</script>
+{{end}}

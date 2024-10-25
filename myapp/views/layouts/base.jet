@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Celeritas: {{yield browserTitle()}}</title>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/ico/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/public/ico/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/public/ico/favicon-16x16.png">
+    <link rel="manifest" href="/public/ico/site.webmanifest">
+
+    <link href="//cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <meta name="csrf-token" content="{{.CSRFToken}}">
+
+    {{yield css()}}
+
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+
+                    {{yield pageContent()}}
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+
+{{yield js()}}
+
+</body>
+</html>

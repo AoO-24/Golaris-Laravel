@@ -1,0 +1,71 @@
+{{extends "./layouts/base.jet"}}
+
+{{block browserTitle()}}
+Form
+{{end}}
+
+{{block css()}} {{end}}
+
+{{block pageContent()}}
+<h2 class="mt-5 text-center">Form Validation</h2>
+
+<hr>
+
+<form method="post" action="/form"
+      class="d-block needs-validation"
+      autocomplete="off" novalidate>
+
+    <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
+
+    <div class="mb-3">
+        <label for="first_name" class="form-label">First Name</label>
+        <input type="text" id="first_name" name="first_name"
+               required="" autocomplete="last_name-new"
+               value="{{user.FirstName}}"
+               class='form-control {{isset(validator.Errors["first_name"]) ? "is-invalid" : ""}}'>
+        <div class="invalid-feedback">
+            {{isset(validator.Errors["first_name"]) ? validator.Errors["first_name"] : ""}}
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label for="last_name" class="form-label">Last Name</label>
+        <input type="text" id="last_name" name="last_name"
+               required="" autocomplete="last_name-new"
+               value="{{user.LastName}}"
+               class='form-control {{isset(validator.Errors["last_name"]) ? "is-invalid" : ""}}'>
+        <div class="invalid-feedback">
+            {{isset(validator.Errors["last_name"]) ? validator.Errors["last_name"] : ""}}
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" id="email" name="email"
+               required="" autocomplete="email-new"
+               value="{{user.Email}}"
+               class='form-control {{isset(validator.Errors["email"]) ? "is-invalid" : ""}}'>
+        <div class="invalid-feedback">
+            {{isset(validator.Errors["email"]) ? validator.Errors["email"] : ""}}
+        </div>
+    </div>
+
+    <hr>
+
+    <input type="submit" class="btn btn-primary" value="Submit form">
+
+</form>
+
+<div class="text-center">
+    <a class="btn btn-outline-secondary" href="/">Back...</a>
+</div>
+
+
+<p>&nbsp;</p>
+{{end}}
+
+{{ block js()}}
+<script>
+
+</script>
+{{end}}

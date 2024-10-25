@@ -1,0 +1,28 @@
+{{extends "./layouts/base.jet"}}
+
+{{block browserTitle()}}Sessions{{end}}
+
+{{block css()}}
+
+{{end}}
+
+{{block pageContent()}}
+
+<div class="col text-center">
+    <div class="d-flex align-items-center justify-content-center mt-5">
+        <div>
+            <img src="/public/images/celeritas.jpg" class="mb-5" style="width: 100px;height:auto;">
+            <h1>Celeritas</h1>
+            <hr>
+            <small class="text-muted">This value came from the session: {{foo}}</small>
+        </div>
+    </div>
+
+</div>
+
+{{end}}
+
+
+{{block js()}}
+
+{{end}}
